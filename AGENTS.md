@@ -73,6 +73,19 @@ follow that pattern for new tests that touch disk.
 - **Don't add `Co-Authored-By` trailers to commits.** User preference. See
   `~/.claude/projects/.../memory/feedback_no_coauthor.md`.
 
+## Implicit projection fields
+
+`src/emit/projection.ts` exports `IMPLICIT_FIELDS` — fields that the
+projector fills from the `ContentItem` itself when listed in projection
+but absent from `data`. Currently only `path`. To add another:
+
+1. Insert it into `IMPLICIT_FIELDS`.
+2. Handle it in `applyProjection`'s switch (the `if (field === "path")` block).
+3. The validation runner already skips diagnostics for any field in
+   `IMPLICIT_FIELDS`, so no change there.
+
+Frontmatter values always win over implicit fallbacks.
+
 ## Adding a new rule
 
 1. Add the ID to `RuleId` enum in `src/config/schema.ts`.

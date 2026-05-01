@@ -9,6 +9,7 @@ import type {
   ContentParseError,
   DiscoverResult,
 } from "../content/discover.js";
+import { IMPLICIT_FIELDS } from "../emit/projection.js";
 import { classifyAjvError, createAjv } from "./ajv_validator.js";
 import type { Diagnostic } from "./diagnostic.js";
 import { JsonResourceLoader } from "./schema_loader.js";
@@ -104,6 +105,7 @@ function checkProjection(
 ): void {
   for (const field of projection) {
     if (field in item.data) continue;
+    if (IMPLICIT_FIELDS.has(field)) continue;
     pushDiagnostic(diagnostics, config, typeConfig, "projection-missing", {
       type: item.type,
       path: item.path,

@@ -49,10 +49,10 @@ types:
   "required": ["title", "slug", "date"],
   "additionalProperties": false,
   "properties": {
-    "title":  { "type": "string" },
-    "slug":   { "type": "string" },
-    "date":   { "type": "string", "format": "date" },
-    "tags":   { "type": "array", "items": { "type": "string" } }
+    "title": { "type": "string" },
+    "slug": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "tags": { "type": "array", "items": { "type": "string" } }
   }
 }
 ```
@@ -77,40 +77,40 @@ Outputs `index.json` at the repo root, with one key per content type.
 See [`config.example.yaml`](./config.example.yaml) for an annotated full
 example. Key fields:
 
-| Key                        | Default      | Notes                                                              |
-| -------------------------- | ------------ | ------------------------------------------------------------------ |
-| `name`                     | (required)   | Used in `llms.txt` / generated README headings.                    |
-| `output`                   | `.`          | Directory for generated files, relative to the config file.        |
-| `index.combined`           | `true`       | Write a single `index.json` keyed by type name.                    |
-| `index.per_type`           | `false`      | Also write per-type files (`<type>.json`).                         |
-| `types.<name>.content`     | (required)   | Glob, relative to config dir.                                      |
-| `types.<name>.format`      | (required)   | `markdown-frontmatter` \| `json` \| `yaml`.                        |
-| `types.<name>.schema`      | (required)   | Path or `https://` URL to a JSON Schema file.                      |
-| `types.<name>.projection`  | (required)   | Path or `https://` URL to a JSON array of field names.             |
-| `types.<name>.key`         | (required)   | Field used for duplicate detection.                                |
-| `types.<name>.sort`        | (none)       | `{ field, order: asc \| desc }`.                                   |
-| `types.<name>.index`       | (none)       | Override per-type output filename.                                 |
-| `llms`                     | `false`      | Also emit `llms.txt`.                                              |
-| `update_readme`            | `false`      | Regenerate the section between `repo-db-indexer:start/end` markers in `README.md`. |
+| Key                       | Default    | Notes                                                                              |
+| ------------------------- | ---------- | ---------------------------------------------------------------------------------- |
+| `name`                    | (required) | Used in `llms.txt` / generated README headings.                                    |
+| `output`                  | `.`        | Directory for generated files, relative to the config file.                        |
+| `index.combined`          | `true`     | Write a single `index.json` keyed by type name.                                    |
+| `index.per_type`          | `false`    | Also write per-type files (`<type>.json`).                                         |
+| `types.<name>.content`    | (required) | Glob, relative to config dir.                                                      |
+| `types.<name>.format`     | (required) | `markdown-frontmatter` \| `json` \| `yaml`.                                        |
+| `types.<name>.schema`     | (required) | Path or `https://` URL to a JSON Schema file.                                      |
+| `types.<name>.projection` | (required) | Path or `https://` URL to a JSON array of field names.                             |
+| `types.<name>.key`        | (required) | Field used for duplicate detection.                                                |
+| `types.<name>.sort`       | (none)     | `{ field, order: asc \| desc }`.                                                   |
+| `types.<name>.index`      | (none)     | Override per-type output filename.                                                 |
+| `llms`                    | `false`    | Also emit `llms.txt`.                                                              |
+| `update_readme`           | `false`    | Regenerate the section between `repo-db-indexer:start/end` markers in `README.md`. |
 
 ### Validation rules
 
 ESLint-style. Set severities at the top level or per-type. Severities:
 `error` (fails the build), `warn` (prints, exit 0), `off` (silent).
 
-| Rule                  | Default | Meaning                                                |
-| --------------------- | ------- | ------------------------------------------------------ |
-| `read-error`          | error   | A matched file could not be read.                      |
-| `invalid-frontmatter` | error   | Markdown frontmatter is malformed or not a mapping.    |
-| `invalid-json`        | error   | JSON file is malformed or root is not an object.       |
-| `invalid-yaml`        | error   | YAML file is malformed or root is not a mapping.       |
-| `schema-violation`    | error   | Catch-all for any JSON Schema violation.               |
-| `required-fields`     | error   | A required field is missing (Ajv `required`).          |
-| `type-mismatch`       | error   | Field is the wrong type (Ajv `type`).                  |
+| Rule                  | Default | Meaning                                                                                                                          |
+| --------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `read-error`          | error   | A matched file could not be read.                                                                                                |
+| `invalid-frontmatter` | error   | Markdown frontmatter is malformed or not a mapping.                                                                              |
+| `invalid-json`        | error   | JSON file is malformed or root is not an object.                                                                                 |
+| `invalid-yaml`        | error   | YAML file is malformed or root is not a mapping.                                                                                 |
+| `schema-violation`    | error   | Catch-all for any JSON Schema violation.                                                                                         |
+| `required-fields`     | error   | A required field is missing (Ajv `required`).                                                                                    |
+| `type-mismatch`       | error   | Field is the wrong type (Ajv `type`).                                                                                            |
 | `unknown-fields`      | warn    | Field present that the schema doesn't allow (Ajv `additionalProperties`). Requires `additionalProperties: false` in your schema. |
-| `duplicate-key`       | error   | Two items share the same value for the type's `key`.   |
-| `empty-body`          | off     | Markdown body is empty/whitespace.                     |
-| `projection-missing`  | warn    | A field listed in the projection is missing from the item. |
+| `duplicate-key`       | error   | Two items share the same value for the type's `key`.                                                                             |
+| `empty-body`          | off     | Markdown body is empty/whitespace.                                                                                               |
+| `projection-missing`  | warn    | A field listed in the projection is missing from the item.                                                                       |
 
 Per-type override:
 
@@ -143,14 +143,14 @@ on:
     branches: [main]
 
 permissions:
-  contents: write   # only needed if commit: true
+  contents: write # only needed if commit: true
 
 jobs:
   index:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: abhinrustagi/repo-db-indexer@v0.1.0
+      - uses: abhinrustagi/repo-db-indexer@v0
         with:
           # Either point to a file in the repo:
           config-path: ./repo-db.yaml
@@ -158,7 +158,7 @@ jobs:
           # config: |
           #   name: my-blog
           #   types: { ... }
-          commit: true   # commit regenerated index back to the branch
+          commit: true # commit regenerated index back to the branch
 ```
 
 ## Caveats
@@ -168,6 +168,10 @@ jobs:
   Quote dates (`date: "2024-01-01"`) if your schema expects strings.
 - **`unknown-fields` requires schema opt-in.** Set
   `"additionalProperties": false` in your JSON Schema for the rule to fire.
+- **`path` is an implicit projection field.** List `"path"` in your
+  projection JSON to include each item's source file path (relative to
+  the config) in the index. Frontmatter `path` values still take
+  precedence if present.
 - **Schemas can be remote URLs** (`https://...`). They're fetched and cached
   per process; no on-disk cache yet.
 - **JSON Schema dialect is Draft 2020-12** (Ajv2020). Schemas without a

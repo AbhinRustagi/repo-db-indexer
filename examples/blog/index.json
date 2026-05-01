@@ -3,6 +3,7 @@
     {
       "title": "Hello, World",
       "slug": "hello-world",
+      "path": "posts/2024/11/hello-world.md",
       "date": "2024-11-15",
       "description": "An obligatory first post that demonstrates how repo-db-indexer treats a single content type.",
       "tags": [
@@ -16,6 +17,7 @@
     {
       "title": "Spring Update",
       "slug": "spring-update",
+      "path": "posts/2024/03/spring-update.md",
       "date": "2024-03-21",
       "description": "Notes on what changed between releases — a pattern this indexer makes easy.",
       "tags": [
@@ -27,6 +29,7 @@
     {
       "title": "An Older Post",
       "slug": "older-post",
+      "path": "posts/2023/09/older-post.md",
       "date": "2023-09-04",
       "description": "Demonstrates that older posts get sorted to the end of the index.",
       "tags": [

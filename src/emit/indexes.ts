@@ -24,7 +24,7 @@ export async function emitIndexes(
     const projection = await loadProjection(loader, typeConfig, cwd);
     const sorted = sortItems(typeItems, typeConfig);
     const projected = sorted.map((item) =>
-      applyProjection(item.data, projection)
+      applyProjection(item, projection)
     );
     projectedByType.set(typeName, projected);
 

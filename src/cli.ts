@@ -24,7 +24,7 @@ const program = new Command();
 program
   .name("repo-db-indexer")
   .description("Build content indexes for git-native content repositories")
-  .version("0.0.0");
+  .version("0.2.0");
 
 program
   .command("build", { isDefault: true })

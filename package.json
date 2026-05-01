@@ -1,6 +1,6 @@
 {
   "name": "repo-db-indexer",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "description": "Build content indexes for git-native content repositories",
   "type": "module",
   "engines": {
