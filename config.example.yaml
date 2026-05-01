@@ -31,7 +31,10 @@ types:
 # Validation rules, eslint-style: error | warn | off.
 # Per-type overrides go under types.<name>.rules.
 rules:
+  read-error: error
   invalid-frontmatter: error
+  invalid-json: error
+  invalid-yaml: error
   schema-violation: error
   required-fields: error
   type-mismatch: error

@@ -4,7 +4,10 @@ export const Severity = z.enum(["error", "warn", "off"]);
 export type Severity = z.infer<typeof Severity>;
 
 export const RuleId = z.enum([
+  "read-error",
   "invalid-frontmatter",
+  "invalid-json",
+  "invalid-yaml",
   "schema-violation",
   "required-fields",
   "type-mismatch",
