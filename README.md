@@ -150,7 +150,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: abhinrustagi/repo-db-indexer@v0
+      - uses: abhinrustagi/repo-db-indexer@v0.1.0
         with:
           # Either point to a file in the repo:
           config-path: ./repo-db.yaml
