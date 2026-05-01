@@ -18,17 +18,23 @@ export async function loadConfig(path: string): Promise<ConfigType> {
   } catch (err) {
     throw new ConfigError(`Cannot read config file: ${path}`, { cause: err });
   }
+  return parseConfigString(raw, path);
+}
 
+export function parseConfigString(
+  raw: string,
+  source = "<input>"
+): ConfigType {
   let parsed: unknown;
   try {
     parsed = parseYaml(raw);
   } catch (err) {
-    throw new ConfigError(`Invalid YAML in ${path}`, { cause: err });
+    throw new ConfigError(`Invalid YAML in ${source}`, { cause: err });
   }
 
   const result = Config.safeParse(parsed);
   if (!result.success) {
-    throw new ConfigError(formatZodError(result.error, path));
+    throw new ConfigError(formatZodError(result.error, source));
   }
   return result.data;
 }
