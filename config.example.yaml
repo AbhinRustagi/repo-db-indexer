@@ -1,9 +1,47 @@
-name: Config Example
+name: repo-db-example
+
+# Where generated index files are written, relative to this config.
+output: .
+
+# Top-level index.json combining all types (default) and/or per-type files.
 index:
-  - file: index.json # Creates an index file if doesn't exist; must be JSON or YAML
-  - item-structure: structures/index.json
-structures:
-  - structures/sample.json
-content: data
-storage: single # single | file-tree
-llms: true # to regenerate llms.txt on each update
+  combined: true
+  per_type: false
+  file: index.json
+
+# Each content type has its own glob, schema, and projection.
+types:
+  post:
+    content: posts/**/*.md
+    format: markdown-frontmatter
+    schema: structures/post.schema.json
+    projection: structures/post.index.json
+    key: slug
+    sort:
+      field: date
+      order: desc
+    index: posts.json
+  note:
+    content: notes/**/*.json
+    format: json
+    schema: structures/note.schema.json
+    projection: structures/note.index.json
+    key: id
+
+# Validation rules, eslint-style: error | warn | off.
+# Per-type overrides go under types.<name>.rules.
+rules:
+  invalid-frontmatter: error
+  schema-violation: error
+  required-fields: error
+  type-mismatch: error
+  unknown-fields: warn
+  duplicate-key: error
+  empty-body: off
+  projection-missing: error
+
+# Emit llms.txt at the output root listing all items with metadata.
+llms: false
+
+# Regenerate README.md with a grouped list of items on each build.
+update_readme: false
