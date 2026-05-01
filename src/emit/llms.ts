@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import type { Config } from "../config/schema.js";
 import type { ContentItem } from "../content/discover.js";
+import { sortItems } from "./sort.js";
 
 export async function emitLlmsTxt(
   config: Config,
@@ -12,7 +13,10 @@ export async function emitLlmsTxt(
 
   const lines: string[] = [`# ${config.name}`, ""];
   for (const [typeName, typeConfig] of Object.entries(config.types)) {
-    const typeItems = items.filter((i) => i.type === typeName);
+    const typeItems = sortItems(
+      items.filter((i) => i.type === typeName),
+      typeConfig
+    );
     if (typeItems.length === 0) continue;
 
     lines.push(`## ${typeName}`, "");

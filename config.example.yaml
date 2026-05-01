@@ -41,7 +41,7 @@ rules:
   unknown-fields: warn
   duplicate-key: error
   empty-body: off
-  projection-missing: error
+  projection-missing: warn
 
 # Emit llms.txt at the output root listing all items with metadata.
 llms: false

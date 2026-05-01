@@ -16,7 +16,7 @@ export const DEFAULT_SEVERITIES: Record<RuleId, Severity> = {
   "unknown-fields": "warn",
   "duplicate-key": "error",
   "empty-body": "off",
-  "projection-missing": "error",
+  "projection-missing": "warn",
 };
 
 export function severityFor(

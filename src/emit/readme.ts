@@ -2,6 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import type { Config } from "../config/schema.js";
 import type { ContentItem } from "../content/discover.js";
+import { sortItems } from "./sort.js";
 
 const START_MARKER = "<!-- repo-db-indexer:start -->";
 const END_MARKER = "<!-- repo-db-indexer:end -->";
@@ -31,7 +32,10 @@ export async function emitReadme(
 function buildBlock(config: Config, items: ContentItem[]): string {
   const lines: string[] = [START_MARKER, ""];
   for (const [typeName, typeConfig] of Object.entries(config.types)) {
-    const typeItems = items.filter((i) => i.type === typeName);
+    const typeItems = sortItems(
+      items.filter((i) => i.type === typeName),
+      typeConfig
+    );
     if (typeItems.length === 0) continue;
     lines.push(`## ${typeName}`, "");
     for (const item of typeItems) {

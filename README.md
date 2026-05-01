@@ -110,7 +110,7 @@ ESLint-style. Set severities at the top level or per-type. Severities:
 | `unknown-fields`      | warn    | Field present that the schema doesn't allow (Ajv `additionalProperties`). Requires `additionalProperties: false` in your schema. |
 | `duplicate-key`       | error   | Two items share the same value for the type's `key`.   |
 | `empty-body`          | off     | Markdown body is empty/whitespace.                     |
-| `projection-missing`  | error   | A field listed in the projection is missing from the item. |
+| `projection-missing`  | warn    | A field listed in the projection is missing from the item. |
 
 Per-type override:
 
