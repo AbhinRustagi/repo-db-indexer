@@ -12,6 +12,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "fast-glob": "^3.3.0",
+    "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
     "zod": "^4.0.0"
   },
