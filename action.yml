@@ -1,0 +1,76 @@
+name: 'repo-db-indexer'
+description: 'Build content indexes for git-native content repositories'
+author: 'AbhinRustagi'
+branding:
+  icon: 'database'
+  color: 'blue'
+
+inputs:
+  config-path:
+    description: "Path to the indexer config file in your repo. Ignored if 'config' is set."
+    required: false
+    default: 'repo-db.yaml'
+  config:
+    description: "Inline config YAML. Overrides 'config-path' if non-empty."
+    required: false
+    default: ''
+  command:
+    description: "Indexer command to run: 'build' or 'validate'."
+    required: false
+    default: 'build'
+  commit:
+    description: "Set to 'true' to commit generated files back to the branch."
+    required: false
+    default: 'false'
+  commit-message:
+    description: "Commit message used when 'commit' is true."
+    required: false
+    default: 'chore(repo-db): refresh generated indexes'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install indexer dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm ci
+
+    - name: Build indexer
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm run build
+
+    - name: Run indexer
+      shell: bash
+      env:
+        INDEXER_INLINE: ${{ inputs.config }}
+        INDEXER_CONFIG_PATH: ${{ inputs.config-path }}
+        INDEXER_COMMAND: ${{ inputs.command }}
+      run: |
+        cli="${{ github.action_path }}/dist/cli.js"
+        if [ -n "$INDEXER_INLINE" ]; then
+          printf '%s' "$INDEXER_INLINE" | node "$cli" "$INDEXER_COMMAND" --config -
+        else
+          node "$cli" "$INDEXER_COMMAND" --config "$INDEXER_CONFIG_PATH"
+        fi
+
+    - name: Commit changes
+      if: ${{ inputs.commit == 'true' && inputs.command == 'build' }}
+      shell: bash
+      env:
+        COMMIT_MESSAGE: ${{ inputs.commit-message }}
+      run: |
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "No changes to commit."
+          exit 0
+        fi
+        git config user.name 'github-actions[bot]'
+        git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git add -A
+        git commit -m "$COMMIT_MESSAGE"
+        git push
