@@ -56,9 +56,12 @@ follow that pattern for new tests that touch disk.
 - **`z.record(enum, V)` is strict in v4.** It requires every enum value as a
   key. For ESLint-style "set only the rules you care about" maps, use
   `z.partialRecord(enum, V)`.
-- **Ajv ESM/CJS interop is fiddly with `module: NodeNext`.** Use the named
-  import `import { Ajv, type ErrorObject } from "ajv"`. For `ajv-formats`,
-  see the type-narrowing helper at the top of `src/validation/ajv_validator.ts`.
+- **Ajv ESM/CJS interop is fiddly with `module: NodeNext`.** We import
+  `Ajv2020` from `ajv/dist/2020.js` for Draft 2020-12 default semantics, and
+  load the Draft 7 meta-schema via JSON import attribute so schemas
+  declaring `$schema: ...draft-07/schema` still pass meta-validation. For
+  `ajv-formats`, see the type-narrowing helper at the top of
+  `src/validation/ajv_validator.ts`.
 - **YAML autoparses ISO date strings to `Date` objects.** A JSON Schema
   `type: "string"` will reject these. Document this in user-facing schemas
   and quote dates in test fixtures.

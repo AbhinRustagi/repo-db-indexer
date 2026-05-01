@@ -1,15 +1,17 @@
-import { Ajv, type ErrorObject } from "ajv";
+import { Ajv2020, type ErrorObject } from "ajv/dist/2020.js";
+import draft7MetaSchema from "ajv/dist/refs/json-schema-draft-07.json" with { type: "json" };
 import addFormatsImport from "ajv-formats";
 import type { RuleId } from "../config/schema.js";
 
 const addFormatsAny = addFormatsImport as unknown as
-  | ((ajv: Ajv) => void)
-  | { default: (ajv: Ajv) => void };
-const addFormats: (ajv: Ajv) => void =
+  | ((ajv: Ajv2020) => void)
+  | { default: (ajv: Ajv2020) => void };
+const addFormats: (ajv: Ajv2020) => void =
   typeof addFormatsAny === "function" ? addFormatsAny : addFormatsAny.default;
 
-export function createAjv(): Ajv {
-  const ajv = new Ajv({ strict: false, allErrors: true });
+export function createAjv(): Ajv2020 {
+  const ajv = new Ajv2020({ strict: false, allErrors: true });
+  ajv.addMetaSchema(draft7MetaSchema);
   addFormats(ajv);
   return ajv;
 }

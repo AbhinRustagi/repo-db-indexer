@@ -170,6 +170,13 @@ jobs:
   `"additionalProperties": false` in your JSON Schema for the rule to fire.
 - **Schemas can be remote URLs** (`https://...`). They're fetched and cached
   per process; no on-disk cache yet.
+- **JSON Schema dialect is Draft 2020-12** (Ajv2020). Schemas without a
+  `$schema` declaration are validated with 2020-12 semantics. Schemas
+  declaring `$schema: http://json-schema.org/draft-07/schema#` pass
+  meta-validation, but data-validation keyword semantics remain 2020-12 —
+  which is identical for plain object schemas (`type`, `required`,
+  `properties`, `additionalProperties`) but differs for tuple `items`
+  (use `prefixItems` instead) and `definitions` (use `$defs`).
 
 ## Development
 
