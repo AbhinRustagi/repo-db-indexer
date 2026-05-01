@@ -1,0 +1,7 @@
+# example-blog
+
+## post
+
+- Hello, World (https://example.com/blog/hello-world): An obligatory first post that demonstrates how repo-db-indexer treats a single content type.
+- Spring Update: Notes on what changed between releases — a pattern this indexer makes easy.
+- An Older Post (https://example.com/blog/older-post): Demonstrates that older posts get sorted to the end of the index.

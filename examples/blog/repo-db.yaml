@@ -1,0 +1,18 @@
+name: example-blog
+
+types:
+  post:
+    content: posts/**/*.md
+    format: markdown-frontmatter
+    schema: structures/post.schema.json
+    projection: structures/post.index.json
+    key: slug
+    sort:
+      field: date
+      order: desc
+
+llms: true
+update_readme: true
+
+rules:
+  unknown-fields: warn
