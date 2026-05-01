@@ -2,6 +2,26 @@
   "name": "repo-db-indexer",
   "version": "0.2.0",
   "description": "Build content indexes for git-native content repositories",
+  "keywords": [
+    "github-action",
+    "static-site",
+    "content",
+    "index",
+    "json-schema",
+    "markdown",
+    "frontmatter",
+    "cli"
+  ],
+  "homepage": "https://github.com/AbhinRustagi/repo-db-indexer#readme",
+  "bugs": {
+    "url": "https://github.com/AbhinRustagi/repo-db-indexer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbhinRustagi/repo-db-indexer.git"
+  },
+  "license": "MIT",
+  "author": "Abhin Rustagi",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -19,7 +39,8 @@
     "dev": "tsx src/cli.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
   },
   "dependencies": {
     "ajv": "^8.17.0",
