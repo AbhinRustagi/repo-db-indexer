@@ -1,0 +1,9 @@
+name: Config Example
+index:
+  - file: index.json # Creates an index file if doesn't exist; must be JSON or YAML
+  - item-structure: structures/index.json
+structures:
+  - structures/sample.json
+content: data
+storage: single # single | file-tree
+llms: true # to regenerate llms.txt on each update
