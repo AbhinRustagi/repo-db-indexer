@@ -159,6 +159,27 @@ jobs:
           #   name: my-blog
           #   types: { ... }
           commit: true # commit regenerated index back to the branch
+          # working-directory: blog # see "Monorepos" below
+```
+
+### Monorepos
+
+Pass `working-directory` when the indexed content lives in a subdirectory
+of the repo (e.g. `blog/` inside a content monorepo). All paths in the
+config (`content`, `schema`, `projection`, `output`) are then resolved
+relative to that directory, and emitted README/index links stay relative
+to it as well. Equivalent to invoking the CLI with `--cwd <dir>`.
+
+```yaml
+- uses: abhinrustagi/repo-db-indexer@v0
+  with:
+    working-directory: blog
+    config: |
+      name: blog
+      types:
+        posts:
+          content: posts/**/*.md
+          # ...
 ```
 
 ## Caveats

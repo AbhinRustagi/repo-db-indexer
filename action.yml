@@ -26,6 +26,10 @@ inputs:
     description: "Commit message used when 'commit' is true."
     required: false
     default: 'chore(repo-db): refresh generated indexes'
+  working-directory:
+    description: "Directory to treat as the indexer's root for resolving config-relative paths (content globs, schema, projection, output). Defaults to the repository root. Useful when the indexer's content lives in a subdirectory of a monorepo."
+    required: false
+    default: ''
 
 runs:
   using: 'composite'
@@ -51,12 +55,17 @@ runs:
         INDEXER_INLINE: ${{ inputs.config }}
         INDEXER_CONFIG_PATH: ${{ inputs.config-path }}
         INDEXER_COMMAND: ${{ inputs.command }}
+        INDEXER_WORKING_DIRECTORY: ${{ inputs.working-directory }}
       run: |
         cli="${{ github.action_path }}/dist/cli.js"
+        cwd_args=()
+        if [ -n "$INDEXER_WORKING_DIRECTORY" ]; then
+          cwd_args=(--cwd "$INDEXER_WORKING_DIRECTORY")
+        fi
         if [ -n "$INDEXER_INLINE" ]; then
-          printf '%s' "$INDEXER_INLINE" | node "$cli" "$INDEXER_COMMAND" --config -
+          printf '%s' "$INDEXER_INLINE" | node "$cli" "$INDEXER_COMMAND" --config - "${cwd_args[@]}"
         else
-          node "$cli" "$INDEXER_COMMAND" --config "$INDEXER_CONFIG_PATH"
+          node "$cli" "$INDEXER_COMMAND" --config "$INDEXER_CONFIG_PATH" "${cwd_args[@]}"
         fi
 
     - name: Commit changes
